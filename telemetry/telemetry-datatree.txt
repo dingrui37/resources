@@ -1,0 +1,91 @@
+module: openconfig-telemetry
+  +--rw telemetry-system
+     +--rw sensor-groups
+     |  +--rw sensor-group* [sensor-group-id]
+     |     +--rw sensor-group-id    -> ../config/sensor-group-id
+     |     +--rw config
+     |     |  +--rw sensor-group-id?   string
+     |     +--ro state
+     |     |  +--ro sensor-group-id?   string
+     |     +--rw sensor-paths
+     |        +--rw sensor-path* [path]
+     |           +--rw path      -> ../config/path
+     |           +--rw config
+     |           |  +--rw path?             string
+     |           |  +--rw exclude-filter?   string
+     |           +--ro state
+     |              +--ro path?             string
+     |              +--ro exclude-filter?   string
+     +--rw destination-groups
+     |  +--rw destination-group* [group-id]
+     |     +--rw group-id        -> ../config/group-id
+     |     +--rw config
+     |     |  +--rw group-id?   string
+     |     +--ro state
+     |     |  +--ro group-id?   string
+     |     +--rw destinations
+     |        +--rw destination* [destination-address destination-port]
+     |           +--rw destination-address    -> ../config/destination-address
+     |           +--rw destination-port       -> ../config/destination-port
+     |           +--rw config
+     |           |  +--rw destination-address?   oc-inet:ip-address
+     |           |  +--rw destination-port?      uint16
+     |           +--ro state
+     |              +--ro destination-address?   oc-inet:ip-address
+     |              +--ro destination-port?      uint16
+     +--rw subscriptions
+        +--rw persistent
+        |  +--rw subscription* [subscription-name]
+        |     +--rw subscription-name     -> ../config/subscription-name
+        |     +--rw config
+        |     |  +--rw subscription-name?        string
+        |     |  +--rw local-source-address?     oc-inet:ip-address
+        |     |  +--rw originated-qos-marking?   oc-inet:dscp
+        |     |  +--rw protocol?                 identityref
+        |     |  +--rw encoding?                 identityref
+        |     +--ro state
+        |     |  +--ro subscription-name?        string
+        |     |  +--ro subscription-id?          uint64
+        |     |  +--ro local-source-address?     oc-inet:ip-address
+        |     |  +--ro originated-qos-marking?   oc-inet:dscp
+        |     |  +--ro protocol?                 identityref
+        |     |  +--ro encoding?                 identityref
+        |     +--rw sensor-profiles
+        |     |  +--rw sensor-profile* [sensor-group]
+        |     |     +--rw sensor-group    -> ../config/sensor-group
+        |     |     +--rw config
+        |     |     |  +--rw sensor-group?         -> ../../../../../../../sensor-groups/sensor-group/config/sensor-group-id
+        |     |     |  +--rw sample-interval?      uint64
+        |     |     |  +--rw heartbeat-interval?   uint64
+        |     |     |  +--rw suppress-redundant?   boolean
+        |     |     +--ro state
+        |     |        +--ro sensor-group?         -> ../../../../../../../sensor-groups/sensor-group/config/sensor-group-id
+        |     |        +--ro sample-interval?      uint64
+        |     |        +--ro heartbeat-interval?   uint64
+        |     |        +--ro suppress-redundant?   boolean
+        |     +--rw destination-groups
+        |        +--rw destination-group* [group-id]
+        |           +--rw group-id    -> ../config/group-id
+        |           +--rw config
+        |           |  +--rw group-id?   -> ../../../../../../../destination-groups/destination-group/group-id
+        |           +--ro state
+        |              +--ro group-id?   -> ../../../../../../../destination-groups/destination-group/group-id
+        +--rw dynamic
+           +--ro subscription* [subscription-id]
+              +--ro subscription-id    -> ../state/subscription-id
+              +--ro state
+              |  +--ro subscription-id?          uint64
+              |  +--ro destination-address?      oc-inet:ip-address
+              |  +--ro destination-port?         uint16
+              |  +--ro sample-interval?          uint64
+              |  +--ro heartbeat-interval?       uint64
+              |  +--ro suppress-redundant?       boolean
+              |  +--ro originated-qos-marking?   oc-inet:dscp
+              |  +--ro protocol?                 identityref
+              |  +--ro encoding?                 identityref
+              +--ro sensor-paths
+                 +--ro sensor-path* [path]
+                    +--ro path     -> ../state/path
+                    +--ro state
+                       +--ro path?             string
+                       +--ro exclude-filter?   string
